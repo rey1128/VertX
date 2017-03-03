@@ -7,7 +7,7 @@
  */
 
 // Apply the java plugin to add support for Java
-group 'de.xapio'
+group 'com.rey'
 version '0.0.1-SNAPSHOT'
 apply plugin: 'java'
 
@@ -26,6 +26,10 @@ dependencies {
     // vertx dependency
     compile group: 'io.vertx', name: 'vertx-core', version: '3.3.3'
     compile group: 'io.vertx', name: 'vertx-web', version: '3.3.3'
+	compile group: 'io.vertx', name: 'vertx-jdbc-client', version: '3.3.3'
+	
+	// database dependency
+	compile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
