@@ -25,6 +25,7 @@ dependencies {
     compile 'com.google.guava:guava:20.0'
     // vertx dependency
     compile group: 'io.vertx', name: 'vertx-core', version: '3.3.3'
+    compile group: 'io.vertx', name: 'vertx-web', version: '3.3.3'
 
     // Use JUnit test framework
     testCompile 'junit:junit:4.12'
@@ -49,7 +50,7 @@ jar {
   // fatjar task, include all required libraries
   task fatJar(type: Jar) {
 	manifest {
-        attributes 'MyNutchX': 'Gradle Jar File Example',
+        attributes 'Vertx': 'Gradle Jar File Example',
         	'Implementation-Version': 1.1,
         	'Main-Class': 'com.rey.main.Program'
     }

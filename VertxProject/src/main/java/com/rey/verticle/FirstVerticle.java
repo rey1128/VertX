@@ -9,10 +9,13 @@ public class FirstVerticle extends AbstractVerticle{
 	public void start(Future<Void> startFuture) throws Exception {
 		// TODO Auto-generated method stub
 //		super.start(startFuture);
+		
+
+		System.out.println(config().getInteger("http.port"));
 		vertx.createHttpServer().requestHandler(r->{
 			r.response().end("Hello VertX");
 			
-		}).listen(8080, context->{
+		}).listen(config().getInteger("http.port",8080), context->{
 			if(context.succeeded()) {
 				startFuture.complete();
 			}else {
