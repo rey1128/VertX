@@ -1,5 +1,6 @@
 package com.rey.verticle;
 
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -18,24 +19,16 @@ public class FirstWebVerticle extends AbstractVerticle {
 
 	private Map<Integer, Whisky> products = new LinkedHashMap<>();
 
-	public void initProducts() {
-		System.out.println("init product...");
-		Whisky w1 = new Whisky("JackDaniel", "US");
-		Whisky w2 = new Whisky("JimBean", "US");
-
-		products.put(w1.getId(), w1);
-		products.put(w2.getId(), w2);
-
-	}
-
 	@Override
 	public void start(Future<Void> startFuture) throws Exception {
 
 		super.start(startFuture);
 
+		System.out.println("FirstWebVerticle: start at " + new Date());
+
 		initProducts();
 		Router router = Router.router(vertx);
-		
+
 		router.route("/").handler(context -> {
 			HttpServerResponse response = context.response();
 			response.putHeader("content-type", "text/html").end("Hello Web-Vert.X");
@@ -44,16 +37,16 @@ public class FirstWebVerticle extends AbstractVerticle {
 
 		// for url-pattern /web, show the index.html under sources/web folder
 		router.route("/web/*").handler(StaticHandler.create("web"));
-		
+
 		// create body handle for whisky example
 		router.route("/api/whiskies/*").handler(BodyHandler.create());
-		
+
 		// get all
 		router.get("/api/whiskies").handler(this::getAll);
-		
+
 		// create
 		router.post("/api/whiskies").handler(this::addOne);
-		
+
 		// update
 		router.put("/api/whiskies/:id").handler(this::updateOne);
 
@@ -63,12 +56,22 @@ public class FirstWebVerticle extends AbstractVerticle {
 		vertx.createHttpServer().requestHandler(router::accept).listen(config().getInteger("http.port", 8082),
 				result -> {
 					if (result.succeeded()) {
-						System.out.println("deploy success");
+						System.out.println("FirstWebVerticle: deploy success");
 
 					} else {
 						startFuture.fail(result.cause());
 					}
 				});
+
+	}
+
+	public void initProducts() {
+		System.out.println("init product...");
+		Whisky w1 = new Whisky("JackDaniel", "US");
+		Whisky w2 = new Whisky("JimBean", "US");
+
+		products.put(w1.getId(), w1);
+		products.put(w2.getId(), w2);
 
 	}
 
@@ -96,7 +99,7 @@ public class FirstWebVerticle extends AbstractVerticle {
 		} else {
 			int id = Integer.parseInt(idString);
 			products.remove(id);
-//			context.response().setStatusCode(204).end();
+			// context.response().setStatusCode(204).end();
 			getAll(context);
 		}
 	}
