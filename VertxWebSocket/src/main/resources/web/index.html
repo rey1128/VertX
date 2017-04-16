@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
+<title>Insert title here</title>
+</head>
+<body>
+
+<h3>Auction 1</h3>
+<div id="error_message"></div>
+<form>
+    Current price:
+    <span id="current_price"></span>
+    <div>
+        <label for="my_bid_value">Your offer:</label>
+        <input id="my_bid_value" type="text">
+        <input type="button" onclick="bid();" value="Bid">
+    </div>
+    <div>
+        Feed:
+        <textarea id="feed" rows="4" cols="50" readonly></textarea>
+    </div>
+</form>
+<script type="text/javascript">
+
+$(document).ready(function(){
+	console.log('ready');
+});
+
+function registerHandlerForUpdateCurrentPriceAndFeed() {
+    var eventBus = new EventBus('http://localhost:8080/eventbus');
+    eventBus.onopen = function () {
+        eventBus.registerHandler('auction.' + auction_id, function (error, message) {
+            document.getElementById('current_price').innerHTML = JSON.parse(message.body).price;
+            document.getElementById('feed').value += 'New offer: ' + JSON.parse(message.body).price + '\n';
+        });
+    }
+};
+
+function bid() {
+    var newPrice = document.getElementById('my_bid_value').value;
+
+    var xmlhttp = (window.XMLHttpRequest) ? new XMLHttpRequest() : new ActiveXObject("Microsoft.XMLHTTP");
+    xmlhttp.onreadystatechange = function () {
+        if (xmlhttp.readyState == 4) {
+            if (xmlhttp.status != 200) {
+                document.getElementById('error_message').innerHTML = 'Sorry, something went wrong.';
+            }
+        }
+    };
+    xmlhttp.open("PATCH", "http://localhost:8080/api/auctions/" + 1234);
+    xmlhttp.setRequestHeader("Content-Type", "application/json");
+    xmlhttp.send(JSON.stringify({price: newPrice}));
+};
+</script>
+</body>
+</html>
