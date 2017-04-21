@@ -3,41 +3,133 @@
 <head>
 <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
 <title>Web Socket Test</title>
+<style type="text/css"></style>
 </head>
+
 <body>
 	<script>
 		var socket;
-		if (window.WebSocket) {
-			socket = new WebSocket("ws://localhost:8080/myapp");
-			socket.onmessage = function(event) {
-				//alert("Received data from websocket: " + event.data);
-				$('#textLine').val(event.data);
+		var ws_address;
+
+		$(document).ready(function() {
+
+			$.ajax({
+				url : "/ws_adress",
+				method : "GET",
+				success : function(data) {					
+					console.log(data);
+					ws_address=data;
+					
+					connect();
+				}
+			}).fail(function() {
+				console.log("fail");
+			});
+
+			$('#getAll').on('click', function() {
+				getAll();
+			});
+		});
+
+		function connect() {
+			console.log("try to connect");
+			if (window.WebSocket) {
+				socket = new WebSocket(ws_address);
+				socket.onmessage = function(event) {
+					//alert("Received data from websocket: " + event.data);
+					//$('#textLine').val(event.data);
+					//console.log(event.data);
+					var obj = jQuery.parseJSON(event.data);
+					var header = obj.header;
+					var data = obj.body;
+					console.log('header: ' + obj.header);
+					//console.log('body: '+obj.body);
+					$('#content').empty();
+					if (header == 'getAll') {
+						var size = Object.keys(data).length;
+						console.log(size);
+						for (var i = 0; i < size; i++) {
+							var val = data[i];
+							$(
+									"<tr><td>" + val.name + "</td>" + "<td>"
+											+ val.age + "</td>" + "<td>"
+											+ val.skill + "</td></tr>")
+									.appendTo("#content");
+						}
+
+					} else if (header = "myapp") {
+						console.log(data);
+					}
+
+				}
+				socket.onopen = function(event) {
+					console.log("Web Socket opened!");
+				};
+				socket.onclose = function(event) {
+					console.log("Web Socket closed.");
+					connect();
+				};
+			} else {
+				alert("Your browser does not support Websockets. (Use Chrome)");
 			}
-			socket.onopen = function(event) {
-				alert("Web Socket opened!");
-			};
-			socket.onclose = function(event) {
-				alert("Web Socket closed.");
-			};
-		} else {
-			alert("Your browser does not support Websockets. (Use Chrome)");
+
 		}
+
+		function getAll() {
+			if (!window.WebSocket) {
+				return;
+			}
+			if (socket.readyState == WebSocket.OPEN) {
+				console.log("get all");
+				//socket.send(message);
+				socket.send(JSON.stringify({
+					header : "getAll"
+				}));
+			} else {
+				alert("The socket is not open.");
+			}
+		}
+
 		function send(message) {
 			if (!window.WebSocket) {
 				return;
 			}
 			if (socket.readyState == WebSocket.OPEN) {
-				console.log("send message: "+message);
-				socket.send(message);
+
+				console.log("send message: " + message);
+				//socket.send(message);
+
+				socket.send(JSON.stringify({
+					header : "myapp",
+					msg : message
+				}));
 			} else {
 				alert("The socket is not open.");
 			}
 		}
 	</script>
 	<form onsubmit="return false;">
-		<input type="text" name="message" value="" id="textLine"/> <input
+		<input type="text" name="message" value="" id="textLine" /> <input
 			type="button" value="Send Web Socket Data"
 			onclick="send(this.form.message.value)" />
+
+		<div class="button" id="getAll">getAll</div>
 	</form>
+
+	<div class="table">
+		<table>
+			<thead>
+				<tr>
+					<td>Name</td>
+					<td>Age</td>
+					<td>Skill</td>
+				</tr>
+			</thead>
+			<tbody id="content">
+				<!-- filled with socket -->
+			</tbody>
+		</table>
+
+	</div>
 </body>
 </html>

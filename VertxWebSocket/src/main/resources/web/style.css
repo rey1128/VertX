@@ -1,0 +1,17 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: sans-serif;
+}
+
+.button {
+	height: 30px;
+	width: 100px;
+	padding: 8px 5px 1px;
+	background-color: #4d85bc;
+	-webkit-text-size-adjust: 100%;
+	color: #ffffff;
+	border-radius: 5px;
+	cursor: pointer;
+	text-align: center;
+}

@@ -6,10 +6,21 @@
  * user guide available at https://docs.gradle.org/3.3/userguide/tutorial_java_projects.html
  */
 
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:1.2.4'
+    }
+}
+
 // Apply the java plugin to add support for Java
 group 'com.rey'
 version '0.0.1-SNAPSHOT'
 apply plugin: 'java'
+apply plugin: 'com.github.johnrengelman.shadow'
 
 // In this section you declare where to find the dependencies of your project
 repositories {
@@ -20,6 +31,7 @@ repositories {
 
 version = '3.3.3'
 sourceCompatibility = '1.8'
+//Main-Class: 'com.rey.MainProgram'
 
 dependencies {
     // The production code uses Guava
