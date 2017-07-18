@@ -6,7 +6,7 @@ public class UserBean {
 
 	private String name;
 	private int age;
-	private Set<String> skills;
+	private String skill;
 
 	public UserBean(String name, int age) {
 		super();
@@ -30,12 +30,12 @@ public class UserBean {
 		this.age = age;
 	}
 
-	public Set<String> getSkills() {
-		return skills;
+	public String getSkill() {
+		return skill;
 	}
 
-	public void setSkills(Set<String> skills) {
-		this.skills = skills;
+	public void setSkill(String skill) {
+		this.skill = skill;
 	}
 
 }
