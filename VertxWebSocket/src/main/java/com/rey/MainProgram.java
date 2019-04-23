@@ -17,7 +17,6 @@ public class MainProgram {
 		// vertx.deployVerticle(AuctionVerticle.class.getName());
 		vertx.deployVerticle(WebVerticle.class.getName());
 //		vertx.deployVerticle(WebSocketVerticle.class.getName());
-		vertx.deployVerticle(SockJSVerticle.class.getName());
 
 //		vertx.deployVerticle(WebSocketClient.class.getName());
 		System.out.println("deploy successfully");
