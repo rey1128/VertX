@@ -27,6 +27,7 @@ dependencies {
 
     compile group: 'io.vertx', name: 'vertx-web', version: '3.7.0'
 	compile group: 'io.vertx', name: 'vertx-jdbc-client', version: '3.7.0'
+	compile group: 'io.vertx', name: 'vertx-redis-client', version: '3.7.0'
 	
 	// database dependency
 	compile group: 'org.hsqldb', name: 'hsqldb', version: '2.3.4'
