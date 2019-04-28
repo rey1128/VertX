@@ -28,7 +28,6 @@ public class RedisPublisher extends AbstractVerticle {
 		});
 
 		vertx.setPeriodic(3000, per -> {
-
 			Redis.createClient(vertx, new RedisOptions()).connect(hr -> {
 				hr.result().send(
 						Request.cmd(Command.PUBLISH).arg(RedisPublisher.CHANNEL).arg("Periodic Hello Redis from RedisSendCMD"),

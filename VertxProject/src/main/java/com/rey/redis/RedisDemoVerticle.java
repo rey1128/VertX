@@ -42,7 +42,6 @@ public class RedisDemoVerticle extends AbstractVerticle {
 	}
 
 	public static void main(String[] args) {
-
 		Vertx vertx = Vertx.vertx();
 		vertx.deployVerticle(RedisDemoVerticle.class.getName());
 	}
