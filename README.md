@@ -11,6 +11,7 @@ Gradle to build VertX project
 
 
 # Topics to be covered
++ restructure the projects
 + language
   * scala
   * kotlin
@@ -20,5 +21,6 @@ Gradle to build VertX project
   * pass multi-media parameters, e.g. send a file with the request, read it and save it
   * connect to db, sql and nosql
   * connect to queue, e.g. kafka
+  * websocket
 + testing
 + documentation
