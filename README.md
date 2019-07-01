@@ -12,12 +12,13 @@ Gradle to build VertX project
 
 # Topics to be covered
 + language
-++ scala
-++ kotlin
+  * scala
+  * kotlin
 + features
-++ restful request: get, post, put, delete
-++ pass agruments and parameters
-++ pass multi-media parameters, e.g. send a file with the request, read it and save it
-++ connect to db, sql and nosql
-++ testing
-++ documentation
+  * restful request: get, post, put, delete
+  * pass agruments and parameters
+  * pass multi-media parameters, e.g. send a file with the request, read it and save it
+  * connect to db, sql and nosql
+  * connect to queue, e.g. kafka
++ testing
++ documentation
